@@ -1,0 +1,15 @@
+:root {
+    --main-bg-color: #031113;
+    --main-text-color: #00d0cc;
+    --main-highlight-color: #ff00ff;
+    --main-error-color: #ff3344;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+

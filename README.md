@@ -1,2 +1,3 @@
 # url-shortener
-A URL shortener
+Hosted at [mallonga.xyz](https://mallonga.xyz/)
+
