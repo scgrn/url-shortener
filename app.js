@@ -32,19 +32,27 @@ app.get('/', (request, response) => {
 })
 
 app.get('/stats/:shortCode', (request, response) => {
-    //  check if shortCode is in database
+    //  check if shortCode is in database   
     //  redirect if it is, otherwise 404
     //  console.log(request.params.shortCode);
+    response.status(404);
+    response.render("missing");
 })
 
-app.post('/shorten', (request, response) => {
+app.post('/shorten', async (request, response) => {
     //  check if target url is in database already
+    // await
+    
     //  if not, generate short url and qr code
+    
+    response.render("result");
 })
 
 app.get('/:shortCode', (request, response) => {
     //  check if shortCode is in database
     //  redirect if it is, otherwise 404
+    response.status(404);
+    response.render("missing");
 });
 
 // start server
