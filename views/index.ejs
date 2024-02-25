@@ -22,9 +22,16 @@
 <body class="d-flex flex-column h-100">
 
     <div class="container">
-        <div class="row">
-        <div class="col-md-6 offset-md-3">
-        </div>
+        <div class="row my-4">
+            <div class="col-md-8 offset-md-2">
+                <h1>Mallonga URL shortener</h1>
+                <form action="" method="POST" class="my-4 form-inline">
+                    <label class="visually-hidden" for="targetURL">Enter target URL:</label>
+                    <input required placeholder="Enter target URL" type="url" name="targetURL" id="targetURL"
+                        class="form-control mr-2">
+                    <button class="btn btn-dark my-2" type="submit">Shorten</button>
+                </form>
+            </div>
         </div>
     </div>
 
