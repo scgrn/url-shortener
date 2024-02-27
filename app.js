@@ -31,28 +31,55 @@ app.get('/', (request, response) => {
     response.render("index");
 })
 
-app.get('/stats/:shortCode', (request, response) => {
-    //  check if shortCode is in database   
-    //  redirect if it is, otherwise 404
-    //  console.log(request.params.shortCode);
-    response.status(404);
-    response.render("missing");
-})
+app.get('/stats/:shortCode', async (request, response) => {
+    //  check if shortCode is in database
+    connection.query('SELECT * FROM urls WHERE shortCode = ?', [request.params.shortCode], function(error, results) {
+        if (error) {
+            console.error(error.stack);
+        }
+        
+        //  redirect if it is, otherwise 404
+        if (results.length > 0) {
+            response.render("stats");
+        } else {
+            response.status(404);
+            response.render("missing");
+        }
+    });
+});
 
 app.post('/shorten', async (request, response) => {
     //  check if target url is in database already
-    // await
-    
-    //  if not, generate short url and qr code
-    
-    response.render("result");
-})
+    await connection.query('SELECT * FROM urls WHERE targetURL = ?', [request.body.targetURL], function(error, results) {
+        if (results.length > 0) {
+            console.log("ALREADY IN DB");
+        } else {
+            //  if not, generate short url and qr code
+            var shortURL = Math.random().toString(36).substr(2, 6);
+            
+        }
+    });
 
-app.get('/:shortCode', (request, response) => {
+    response.render("result");
+});
+
+app.get('/:shortCode', async (request, response) => {
     //  check if shortCode is in database
-    //  redirect if it is, otherwise 404
-    response.status(404);
-    response.render("missing");
+    await connection.query('SELECT * FROM urls WHERE shortCode = ?', [request.params.shortCode], function(error, results) {
+        if (error) {
+            console.error(error.stack);
+        }
+        
+        //  redirect if it is, otherwise 404
+        if (results.length > 0) {
+            //  TODO: increment hits
+            
+            response.redirect(results[0].targetURL);
+        } else {
+            response.status(404);
+            response.render("missing");
+        }
+    });
 });
 
 // start server
