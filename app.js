@@ -51,16 +51,30 @@ app.get('/stats/:shortCode', async (request, response) => {
 app.post('/shorten', async (request, response) => {
     //  check if target url is in database already
     await connection.query('SELECT * FROM urls WHERE targetURL = ?', [request.body.targetURL], function(error, results) {
+        var shortCode;
+        
         if (results.length > 0) {
             console.log("ALREADY IN DB");
-        } else {
-            //  if not, generate short url and qr code
-            var shortURL = Math.random().toString(36).substr(2, 6);
-            
-        }
-    });
 
-    response.render("result");
+            shortCode = results[0].shortCode;
+        } else {
+            //  if not, generate short url and write to database
+            shortCode = Math.random().toString(36).substr(2, 6);
+            
+            connection.query("INSERT INTO urls (targetURL, shortCode, dateCreated, dateLastHit, hits) VALUES (?, ?, ?, ?, ?)",
+                [request.body.targetURL, shortCode, new Date(), new Date(), 0], function(error, results) {
+
+                if (error) {
+                    console.error(error.stack);
+                }
+            });
+        }
+
+        response.render("result", {
+            shortURL: process.env.APP_BASE_URL + shortCode,
+            statsURL: process.env.APP_BASE_URL + "stats/" + shortCode,
+        });
+    });
 });
 
 app.get('/:shortCode', async (request, response) => {

@@ -4,9 +4,9 @@
     <div class="container">
         <div class="row my-4">
             <div class="col-md-6 offset-md-3 my-4">
-                Your shortened URL is <a href="">https://mallonga.xyz/123456</a><br/>
-                <button class="btn btn-dark my-2" onclick="navigator.clipboard.writeText('https://mallonga.xyz/123456')"type="">Copy to clipboard</button><br/>
-                Your can view statistics for this URL by visiting <a href="/stats/123456">https://mallonga.xyz/stats/123456</a><br/>
+                Your shortened URL is <a href="<%= shortURL %>"><%= shortURL %></a><br/>
+                <button class="btn btn-dark my-2" onclick="navigator.clipboard.writeText('<%= shortURL %>')"type="">Copy to clipboard</button><br/>
+                Your can view statistics for this URL by visiting <a href="<%= statsURL %>"><%= statsURL %></a><br/>
 
 <%- include('./partials/qrCode'); %>
 
