@@ -4,13 +4,13 @@
     <div class="container">
         <div class="row my-4">
             <div class="col-md-6 offset-md-3 my-4">
-                Stats for <a href="">https://mallonga.xyz/123456</a><br/>
+                Stats for <a href="<%= shortURL %>"><%= shortURL %></a><br/>
                 <br/>
-                Target URL:<br/>
-                Date created:<br/>
+                Target URL: <a href="<%= targetURL %>"><%= targetURL %></a><br/>
+                Date created: <%= dateCreated %><br/>
                 <br/>
-                Total hits:<br/>
-                Last hit:<br/>
+                Total hits: <%= hits %><br/>
+                Last hit: <%= dateLastHit %><br/>
                 <br/>
 
 <%- include('./partials/qrCode'); %>

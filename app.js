@@ -31,16 +31,22 @@ app.get('/', (request, response) => {
     response.render("index");
 })
 
-app.get('/stats/:shortCode', async (request, response) => {
+app.get('/stats/:shortCode', (request, response) => {
     //  check if shortCode is in database
     connection.query('SELECT * FROM urls WHERE shortCode = ?', [request.params.shortCode], function(error, results) {
         if (error) {
             console.error(error.stack);
         }
-        
+
         //  redirect if it is, otherwise 404
         if (results.length > 0) {
-            response.render("stats");
+            response.render("stats", {
+                targetURL: results[0].targetURL,
+                shortURL: process.env.APP_BASE_URL + results[0].shortCode,
+                dateCreated: results[0].dateCreated.toISOString().slice(0, 10),
+                dateLastHit: results[0].dateLastHit.toISOString().slice(0, 10),
+                hits: results[0].hits
+            });
         } else {
             response.status(404);
             response.render("missing");
@@ -54,8 +60,6 @@ app.post('/shorten', async (request, response) => {
         var shortCode;
         
         if (results.length > 0) {
-            console.log("ALREADY IN DB");
-
             shortCode = results[0].shortCode;
         } else {
             //  if not, generate short url and write to database
