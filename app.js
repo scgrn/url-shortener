@@ -43,8 +43,8 @@ app.get('/stats/:shortCode', (request, response) => {
             response.render("stats", {
                 targetURL: results[0].targetURL,
                 shortURL: process.env.APP_BASE_URL + results[0].shortCode,
-                dateCreated: results[0].dateCreated.toISOString().slice(0, 10),
-                dateLastHit: results[0].dateLastHit.toISOString().slice(0, 10),
+                dateCreated: results[0].dateCreated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                dateLastHit: results[0].dateLastHit.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
                 hits: results[0].hits
             });
         } else {
