@@ -90,8 +90,9 @@ app.get('/:shortCode', async (request, response) => {
         
         //  redirect if it is, otherwise 404
         if (results.length > 0) {
-            //  TODO: increment hits
-            
+            //  increment hits
+            connection.query('UPDATE urls SET hits = ? WHERE shortCode = ?', [results[0].hits + 1, request.params.shortCode]);
+
             response.redirect(results[0].targetURL);
         } else {
             response.status(404);
