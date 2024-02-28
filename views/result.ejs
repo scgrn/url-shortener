@@ -1,22 +1,12 @@
-<%- include('./partials/head'); %>
+<%- include('./partials/header'); %>
 
-<body class="d-flex flex-column h-100">
-    <div class="container">
-        <div class="row my-4">
-            <div class="col-md-6 offset-md-3 my-4">
-                Your shortened URL is <a href="<%= shortURL %>"><%= shortURL %></a><br/>
-                <button class="btn btn-dark my-2" onclick="navigator.clipboard.writeText('<%= shortURL %>')"type="">Copy to clipboard</button><br/>
-                Your can view statistics for this URL by visiting <a href="<%= statsURL %>"><%= statsURL %></a><br/>
+Your shortened URL is <a href="<%= shortURL %>"><%= shortURL %></a><br/>
+<button class="btn btn-dark my-2" onclick="navigator.clipboard.writeText('<%= shortURL %>')"type="">Copy to clipboard</button><br/>
+Your can view statistics for this URL by visiting <a href="<%= statsURL %>"><%= statsURL %></a><br/>
 
 <%- include('./partials/qrCode'); %>
 
-                <a href="/">Home</a>
-            </div>
-        </div>
-    </div>
+<a href="/">Home</a>
 
 <%- include('./partials/footer'); %>
-
-</body>
-</html>
 

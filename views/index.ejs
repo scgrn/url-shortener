@@ -1,22 +1,11 @@
-<%- include('./partials/head'); %>
+<%- include('./partials/header'); %>
 
-<body class="d-flex flex-column h-100">
-    <div class="container">
-        <div class="row my-4">
-            <div class="col-md-6 offset-md-3 my-4">
-                <h1>Mallonga URL shortener</h1>
-                <form action="/shorten" method="POST" class="my-4 form-inline">
-                    <label class="visually-hidden" for="targetURL">Enter target URL:</label>
-                    <input required placeholder="Enter target URL" type="url" name="targetURL" id="targetURL"
-                        class="form-control mr-2">
-                    <button class="btn btn-dark my-4" type="submit">Shorten</button>
-                </form>
-            </div>
-        </div>
-    </div>
+<form action="/shorten" method="POST" class="my-4 form-inline">
+    <label class="visually-hidden" for="targetURL">Enter target URL:</label>
+    <input required placeholder="Enter target URL" type="url" name="targetURL" id="targetURL"
+        class="form-control mr-2">
+    <button class="btn btn-dark my-4" type="submit">Shorten</button>
+</form>
 
 <%- include('./partials/footer'); %>
-
-</body>
-</html>
 

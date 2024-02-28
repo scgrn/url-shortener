@@ -1,27 +1,17 @@
-<%- include('./partials/head'); %>
+<%- include('./partials/header'); %>
 
-<body class="d-flex flex-column h-100">
-    <div class="container">
-        <div class="row my-4">
-            <div class="col-md-6 offset-md-3 my-4">
-                Stats for <a href="<%= shortURL %>"><%= shortURL %></a><br/>
-                <br/>
-                Target URL: <a href="<%= targetURL %>"><%= targetURL %></a><br/>
-                Date created: <%= dateCreated %><br/>
-                <br/>
-                Total hits: <%= hits %><br/>
-                Last hit: <%= dateLastHit %><br/>
-                <br/>
+Stats for <a href="<%= shortURL %>"><%= shortURL %></a><br/>
+<br/>
+Target URL: <a href="<%= targetURL %>"><%= targetURL %></a><br/>
+Date created: <%= dateCreated %><br/>
+<br/>
+Total hits: <%= hits %><br/>
+Last hit: <%= dateLastHit %><br/>
+<br/>
 
 <%- include('./partials/qrCode'); %>
 
-                <a href="/">Home</a>
-            </div>
-        </div>
-    </div>
+<a href="/">Home</a>
 
 <%- include('./partials/footer'); %>
-
-</body>
-</html>
 
