@@ -1,6 +1,22 @@
+<script src="/qrcode.min.js"></script>
+
+<div id="qrContainer"></div>
+
+<script>
+var qrcode = new QRCode({
+    content: "https://mallonga.xyz/fge12b",
+    padding: 0,
+    width: 384,
+    height: 384,
+    // container: "svg-viewbox", //Responsive use
+    join: true //Crisp rendering and 4-5x reduced file size
+});
+document.getElementById("qrContainer").innerHTML = qrcode.svg();
+</script>
+
 <br/>
-<button class="btn btn-dark my-2" type="">Download 150x150 PNG QR code</button><br/>
-<button class="btn btn-dark my-2" type="">Download 500x500 PNG QR code</button><br/>
-<button class="btn btn-dark my-2" type="">Download EPS QR code</button><br/>
+<button class="btn btn-dark my-2" type="">Download 256x256 PNG QR code</button><br/>
+<button class="btn btn-dark my-2" type="">Download 1024x1024 PNG QR code</button><br/>
+<button class="btn btn-dark my-2" type="">Download SVG QR code</button><br/>
 <br/>
 

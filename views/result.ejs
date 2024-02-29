@@ -3,6 +3,7 @@
 Your shortened URL is <a href="<%= shortURL %>"><%= shortURL %></a><br/>
 <button class="btn btn-dark my-2" onclick="navigator.clipboard.writeText('<%= shortURL %>')"type="">Copy to clipboard</button><br/>
 You can view statistics for this URL by visiting <a href="<%= statsURL %>"><%= statsURL %></a><br/>
+<br/>
 
 <%- include('./partials/qrCode'); %>
 
