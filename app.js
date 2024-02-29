@@ -28,7 +28,7 @@ connection.connect((error) => {
 });
 
 app.get('/', (request, response) => {
-    response.render("index");
+    response.render("index", { appTitle: process.env.APP_TITLE });
 })
 
 app.get('/stats/:shortCode', (request, response) => {
@@ -41,6 +41,7 @@ app.get('/stats/:shortCode', (request, response) => {
         //  redirect if it is, otherwise 404
         if (results.length > 0) {
             response.render("stats", {
+                appTitle: process.env.APP_TITLE,
                 targetURL: results[0].targetURL,
                 shortURL: process.env.APP_BASE_URL + results[0].shortCode,
                 dateCreated: results[0].dateCreated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
@@ -49,12 +50,12 @@ app.get('/stats/:shortCode', (request, response) => {
             });
         } else {
             response.status(404);
-            response.render("missing");
+            response.render("missing", { appTitle: process.env.APP_TITLE });
         }
     });
 });
 
-app.post('/shorten', async (request, response) => {
+app.post('/create', async (request, response) => {
     //  check if target url is in database already
     await connection.query('SELECT * FROM urls WHERE targetURL = ?', [request.body.targetURL], function(error, results) {
         var shortCode;
@@ -75,6 +76,7 @@ app.post('/shorten', async (request, response) => {
         }
 
         response.render("result", {
+            appTitle: process.env.APP_TITLE,
             shortURL: process.env.APP_BASE_URL + shortCode,
             statsURL: process.env.APP_BASE_URL + "stats/" + shortCode,
         });
@@ -96,7 +98,7 @@ app.get('/:shortCode', async (request, response) => {
             response.redirect(results[0].targetURL);
         } else {
             response.status(404);
-            response.render("missing");
+            response.render("missing", { appTitle: process.env.APP_TITLE });
         }
     });
 });
