@@ -5,31 +5,40 @@ require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql');
 const path = require('path');
-
+const rateLimit = require("express-rate-limit");
 const app = express();
 
+//  set up templating engine
 app.set('view engine', 'ejs');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static(path.join(__dirname, 'static')));
 
+//  set up database connection
 const connection = mysql.createConnection({
     host: process.env.DATABASE_HOST,
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
     database: process.env.DATABASE
 });
-
 connection.connect((error) => {
     if (error) {
         console.error(error.stack);
     }
 });
 
+//  set up rate limiting
+const limiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 100,                 // limit each IP to max requests per windowMs
+    message: "Too many requests from this IP, knock it off."
+});
+app.use(limiter);
+
+//  define endpoints
 app.get('/', (request, response) => {
     response.render("index", { appTitle: process.env.APP_TITLE });
-})
+});
 
 app.get('/stats/:shortCode', (request, response) => {
     //  check if shortCode is in database
