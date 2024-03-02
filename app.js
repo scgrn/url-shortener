@@ -64,17 +64,33 @@ app.get('/stats/:shortCode', (request, response) => {
     });
 });
 
+async function generateUniqueShortCode() {
+    while (true) {
+        let shortCode = Math.random().toString(36).substr(2, 6);
+        const result = await new Promise((resolve, reject) => {
+        connection.query('SELECT * FROM urls WHERE shortCode = ?', [shortCode], (err, result) => {
+            if (err) reject(err);
+                resolve(result);
+            });
+        });
+
+        if (result.length === 0) {
+            return shortCode;
+        }
+    }
+}
+
 app.post('/create', async (request, response) => {
     //  check if target url is in database already
-    await connection.query('SELECT * FROM urls WHERE targetURL = ?', [request.body.targetURL], function(error, results) {
+    await connection.query('SELECT * FROM urls WHERE targetURL = ?', [request.body.targetURL], async function(error, results) {
         var shortCode;
         
         if (results.length > 0) {
             shortCode = results[0].shortCode;
         } else {
             //  if not, generate short url and write to database
-            shortCode = Math.random().toString(36).substr(2, 6);
-            
+            shortCode = await generateUniqueShortCode();
+
             connection.query("INSERT INTO urls (targetURL, shortCode, dateCreated, dateLastHit, hits) VALUES (?, ?, ?, ?, ?)",
                 [request.body.targetURL, shortCode, new Date(), new Date(), 0], function(error, results) {
 
@@ -83,7 +99,6 @@ app.post('/create', async (request, response) => {
                 }
             });
         }
-
         response.render("result", {
             appTitle: process.env.APP_TITLE,
             shortURL: process.env.APP_BASE_URL + shortCode,
