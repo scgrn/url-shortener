@@ -1,15 +1,32 @@
 :root {
-    --main-bg-color: #031113;
-    --main-text-color: #00d0cc;
-    --main-highlight-color: #ff00ff;
+    --main-bg-color: #F7F7F7;
+    --main-text-color: #393E46;
+    --main-highlight-color: #6D98B6;
     --main-error-color: #ff3344;
 }
 
 * {
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "segoe ui", roboto, oxygen, ubuntu, cantarell, "fira sans", "droid sans", "helvetica neue", Arial, sans-serif;
-    font-size: 16px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+    color: var(--main-text-color);
+    background: var(--main-bg-color);
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+.footer {
+    font-size: 12px;
+}
+
+a:link, a:visited {
+    text-decoration: none;
+}
+
+a:hover, a:active {
+    text-decoration: underline;
 }
 
