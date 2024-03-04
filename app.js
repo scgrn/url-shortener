@@ -49,12 +49,19 @@ app.get('/stats/:shortCode', (request, response) => {
 
         //  redirect if it is, otherwise 404
         if (results.length > 0) {
+            var dateLastHit;
+            if (results[0].dateLastHit == null) {
+                dateLastHit = "Never ever";
+            } else {
+                dateLastHit = results[0].dateLastHit.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            }
+
             response.render("stats", {
                 appTitle: process.env.APP_TITLE,
                 targetURL: results[0].targetURL,
                 shortURL: process.env.APP_BASE_URL + results[0].shortCode,
                 dateCreated: results[0].dateCreated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
-                dateLastHit: results[0].dateLastHit.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }),
+                dateLastHit: dateLastHit,
                 hits: results[0].hits
             });
         } else {
@@ -92,7 +99,7 @@ app.post('/create', async (request, response) => {
             shortCode = await generateUniqueShortCode();
 
             connection.query("INSERT INTO urls (targetURL, shortCode, dateCreated, dateLastHit, hits) VALUES (?, ?, ?, ?, ?)",
-                [request.body.targetURL, shortCode, new Date(), new Date(), 0], function(error, results) {
+                [request.body.targetURL, shortCode, new Date(), null, 0], function(error, results) {
 
                 if (error) {
                     console.error(error.stack);
@@ -128,8 +135,7 @@ app.get('/:shortCode', async (request, response) => {
 });
 
 // start server
-const port = 80;
-app.listen(port, () => {
-    console.log(new Date().toISOString() + " | Server running at port " + port);
+app.listen(process.env.PORT, () => {
+    console.log(new Date().toISOString() + " | Server running at port " + process.env.PORT);
 });
 

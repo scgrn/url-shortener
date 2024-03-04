@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS urls (
     targetURL VARCHAR(2048) CHARACTER SET 'ascii' COLLATE 'ascii_general_ci' NOT NULL,
     shortCode VARCHAR(50) CHARACTER SET 'ascii' COLLATE 'ascii_general_ci' NOT NULL,
     dateCreated date NOT NULL,
-    dateLastHit date NOT NULL,
+    dateLastHit date,
     hits INT DEFAULT 0,
     
     PRIMARY KEY (id)
