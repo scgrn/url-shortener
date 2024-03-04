@@ -1,7 +1,25 @@
 <%- include('./partials/header'); %>
 
+<script>
+function copyURL(url) {
+    navigator.clipboard.writeText('<%= shortURL %>');
+
+    var button = document.getElementById("copyButton");
+    var buttonWidth = button.offsetWidth;
+
+    button.innerText = "Copied!";
+    button.disabled = true;
+    button.style.width = buttonWidth + 'px';
+
+    setTimeout(function() {
+        button.innerText = "Copy to clipboard";
+        button.disabled = false;
+    }, 2000);
+}
+</script>
+
 Your shortened URL is <a href="<%= shortURL %>"><%= shortURL %></a><br/>
-<button class="btn btn-dark my-2" onclick="navigator.clipboard.writeText('<%= shortURL %>')"type="">Copy to clipboard</button><br/>
+<button class="btn btn-dark my-2" id="copyButton" onclick="copyURL('<%= shortURL %>');" type="">Copy to clipboard</button><br/>
 You can view statistics for this URL by visiting <a href="<%= statsURL %>"><%= statsURL %></a><br/>
 <br/>
 
