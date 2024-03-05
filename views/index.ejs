@@ -1,10 +1,32 @@
 <%- include('./partials/header'); %>
 
-<form action="/create" method="POST" class="my-4 form-inline">
+<script src="https://www.google.com/recaptcha/api.js?render=<%= siteKey %>"></script>
+
+<script>
+function onSubmit(e) {
+    console.log("onSubmit()");
+    e.preventDefault();
+    grecaptcha.ready(function() {
+        console.log("reCAPTCHA ready");
+        grecaptcha.execute("<%= siteKey %>", {action: 'submit'}).then(function(token) {
+            console.log("reCAPTCHA executed");
+            document.getElementById("recaptchaToken").value = token;
+            document.getElementById("form").submit();
+        });
+    });
+}
+</script>
+
+<form action="/create" method="POST" id="form" class="my-4 form-inline">
     <label class="visually-hidden" for="targetURL">Enter target URL:</label>
     <input required placeholder="Enter target URL" type="url" name="targetURL" id="targetURL"
         class="form-control mr-2">
-    <button class="btn btn-dark my-4" type="submit">Shorten</button>
+    <input type="hidden" id="recaptchaToken" name="recaptchaToken">
+    
+    <button class="g-recaptcha btn btn-dark my-4"
+        data-sitekey="<%= siteKey %>"
+        data-callback="onSubmit"
+        data-action="submit">Shorten</button>
 </form>
 
 <%- include('./partials/footer'); %>
