@@ -126,6 +126,7 @@ app.get('/:shortCode', async (request, response) => {
             //  increment hits and set last hit date
             connection.query('UPDATE urls SET hits = ?, dateLastHit = ? WHERE shortCode = ?', [results[0].hits + 1, new Date(), request.params.shortCode]);
 
+            response.status(302);
             response.redirect(results[0].targetURL);
         } else {
             response.status(404);
