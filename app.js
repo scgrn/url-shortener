@@ -37,7 +37,10 @@ app.use(limiter);
 
 //  define endpoints
 app.get('/', (request, response) => {
-    response.render("index", { appTitle: process.env.APP_TITLE });
+    response.render("index", {
+        appTitle: process.env.APP_TITLE,
+        siteKey: process.env.RECAPTCHA_V3_SITE_KEY
+    });
 });
 
 app.get('/stats/:shortCode', (request, response) => {
@@ -88,6 +91,59 @@ async function generateUniqueShortCode() {
 }
 
 app.post('/create', async (request, response) => {
+    const recaptchaToken = request.body.recaptchaToken;
+    console.log(recaptchaToken);
+/*
+const https = require('https');
+
+app.post('/submit-form', (req, res) => {
+    const recaptchaToken = req.body.recaptchaToken;
+
+    const postData = JSON.stringify({
+        secret: 'YOUR_SECRET_KEY',
+        response: recaptchaToken
+    });
+
+    const options = {
+        hostname: 'www.google.com',
+        port: 443,
+        path: '/recaptcha/api/siteverify',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Content-Length': postData.length
+        }
+    };
+
+    const request = https.request(options, (response) => {
+        let data = '';
+
+        response.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        response.on('end', () => {
+            const responseBody = JSON.parse(data);
+            if (response.statusCode === 200 && responseBody.success) {
+                // reCAPTCHA validation passed, handle form submission
+                res.send('Form submitted successfully');
+            } else {
+                // reCAPTCHA validation failed
+                res.status(400).send('reCAPTCHA validation failed');
+            }
+        });
+    });
+
+    request.on('error', (error) => {
+        console.error('Error while making request:', error);
+        res.status(500).send('Internal server error');
+    });
+
+    request.write(postData);
+    request.end();
+});
+*/
+
     //  check if target url is in database already
     await connection.query('SELECT * FROM urls WHERE targetURL = ?', [request.body.targetURL], async function(error, results) {
         var shortCode;
